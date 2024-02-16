@@ -1,0 +1,136 @@
+body {
+    margin: 0;
+    padding: 0;
+
+}
+
+.all{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../Assets/OIG4.jpg");
+    /*background-size: cover; !* התאמת התמונה לרזולוציה של המסך *!*/
+    background-position: center; /* מיקום התמונה בתוך האלמנט */
+    background-size: contain; /* השתמש ב-contain כדי להציג את כל התמונה בגודל מקסימלי */
+    height: 100vh;
+    width: 100%;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: 70px;
+    width: 500px;
+    background: transparent;
+    border-radius: 100px;
+
+}
+.header {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+
+}
+.text{
+    color: #3c009d;
+    font-size: 48px;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+}
+.underline{
+    width: 61px;
+    height: 6px;
+    background: #3c009d;
+    border-radius: 9px;
+}
+.inputs{
+    margin-top: 55px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+}
+.input{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 480px;
+    height: 80px;
+    background: #eaeaea;
+    border-radius: 6px;
+    font-family: "Poppins", sans-serif;
+}
+.input img{
+    margin: 0px 30px;
+}
+.input input{
+    height: 50px;
+    width: 400px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #797979;
+    font-size: 19px;
+
+}
+/*.forgot span{*/
+/*    color: black;*/
+/*    cursor: pointer;*/
+/*}*/
+/*.forgot{*/
+/*    display: flex;*/
+/*    gap: 10px;*/
+/*    margin: 5px auto;*/
+/*    color: black;*/
+/*    font-size: 20px;*/
+/*    font-weight: 1000;*/
+/*    font-family: "Poppins", sans-serif;*/
+/*}*/
+.bt {
+    color: black;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.forgot {
+    display: flex;
+    align-items: center; /* יישור אנכי של התמונה והטקסט */
+    gap: 10px;
+    margin: 5px auto;
+    color: yellow;
+    font-size: 18px; /* גודל הפונט */
+    font-weight: 900; /* משקל הפונט */
+    font-family: "Arial", sans-serif; /* גופן הטקסט */
+}
+
+.forgot:hover span {
+    text-decoration: underline; /* קו תחתון כאשר העכבר על הכפתור */
+}
+
+.submit-container{
+    display: flex;
+    gap: 30px;
+    margin: 60px auto;
+}
+.submit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 59px;
+    color: white;
+    background: #4c00b4;
+    border-radius: 50px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+}
+.grey{
+    background: #eaeaea;
+    color: #676767;
+    font-family: "Poppins", sans-serif;
+}
