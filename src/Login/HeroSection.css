@@ -1,0 +1,25 @@
+.hero-container {
+    background: orangered;
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    padding: 100px 0;
+}
+
+.hero-container h1 {
+    font-size: 3rem;
+}
+
+.hero-container p {
+    font-size: 1.5rem;
+}
+
+.hero-container button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border: none;
+    background-color: #ff4500;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+}

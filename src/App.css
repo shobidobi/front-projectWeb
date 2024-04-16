@@ -1,7 +1,188 @@
 /*.App {*/
-/*    background-size: cover;*/
-/*    background-position: center;*/
-/*    background-repeat: no-repeat;*/
-/*    height: 100vh;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    !*min-height: 100vh;*!*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    overflow-x: hidden;*/
+/*    margin: 0;*/
+/*}*/
+
+/*.header, .main, .footer {*/
+/*    padding: 20px;*/
+/*}*/
+
+/*.header {*/
+/*    background-color: #409c36;*/
+/*    padding: 10px; !* קיטון הרווחים שמסביב *!*/
+/*    color: white;*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.header .logo {*/
+/*    border-radius: 10px;*/
+/*    width: 60px; !* קיטון הרוחב של הלוגו *!*/
+/*    height: 60px; !* קיטון הגובה של הלוגו *!*/
+/*}*/
+
+/*.header .title {*/
+/*    font-size: 1.2em; !* קיטון גודל הכותרת *!*/
+/*    margin-left: 10px; !* הוספת מרווח משמאל *!*/
+/*}*/
+
+
+
+
+/*.buttons {*/
+/*    float: right;*/
+/*    display: flex;*/
+/*    gap: 20px; !* Increase the gap between buttons *!*/
+/*}*/
+
+/*.button {*/
+/*    padding: 10px 20px;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    background-color: orange;*/
+/*    color: blue;*/
+/*    font-weight: bold;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.main {*/
+/*    background-color: lightblue;*/
+/*    color: white;*/
+/*    direction: rtl;*/
+/*    flex-grow: 1;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    gap: 20px;*/
 /*    width: 100%;*/
 /*}*/
+
+/*.footer {*/
+/*    background-color: purple;*/
+/*    color: white;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    !*align-items: center;*!*/
+/*    gap: 20px;*/
+/*}*/
+
+/*.email-icon {*/
+/*    !*float: left;*!*/
+/*    align-items: flex-start;*/
+/*    width: 50px;*/
+/*    padding: 10px 20px;*/
+
+/*}*/
+
+/*.form {*/
+/*    text-align: right;*/
+/*}*/
+
+/*input[type="text"] {*/
+/*    padding: 10px;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*}*/
+/*.footer .cp {*/
+/*    text-align: center;*/
+/*    margin: 0 10px;*/
+/*}*/
+/*input[type="submit"] {*/
+/*    padding: 10px 20px;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    background-color: white;*/
+/*    color: purple;*/
+/*    font-weight: bold;*/
+/*    cursor: pointer;*/
+/*}*/
+/* עיצוב Header */
+.navbar {
+    background-color: blue;
+    color: white;
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+    padding: 10px 20px;
+
+}
+.logged {
+    background-color: #f0f0f0; /* צבע רקע */
+    color: #333; /* צבע טקסט */
+    padding: 10px; /* מרווח מסביב לתוכן */
+    border-radius: 5px; /* פינות מעוגלות */
+    margin-bottom: 10px; /* מרווח מתחת */
+}
+
+.logo img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 10px; /* מרווח מימין בין הלוגו לכותרת */
+}
+
+.company-name {
+    font-weight: bold;
+    margin-right: 1000px;
+    font-size: 1.4em;
+}
+
+.buttons button {
+    margin-left: 12px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: blue;
+    font-weight: bold;
+    cursor: pointer;
+    gap: 10px;
+}
+
+/* עיצוב Body */
+.body {
+    background-color: lightblue;
+    padding: 20px;
+}
+
+/* עיצוב Footer */
+.footer {
+    background-color: purple;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.email img {
+    width: 50px;
+    height: 50px;
+}
+
+.newsletter input[type="email"] {
+    padding: 8px;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.newsletter button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: purple;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.rights {
+    font-size: 0.8em;
+}

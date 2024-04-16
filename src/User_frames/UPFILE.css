@@ -1,0 +1,221 @@
+/*.file-uploader {*/
+/*    background-color: #f9f9f9;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 8px;*/
+/*    padding: 20px;*/
+/*    max-width: 400px;*/
+/*    margin: 0 auto;*/
+/*}*/
+
+/*.file-input {*/
+/*    display: none;*/
+/*}*/
+
+/*.custom-file-upload {*/
+/*    background-color: #5cb85c;*/
+/*    color: #fff;*/
+/*    padding: 10px 20px;*/
+/*    border: none;*/
+/*    border-radius: 4px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.custom-file-upload:hover {*/
+/*    background-color: #4cae4c;*/
+/*}*/
+
+/*select,*/
+/*input[type="text"] {*/
+/*    width: calc(100% - 40px);*/
+/*    padding: 8px;*/
+/*    margin-top: 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*}*/
+
+/*button {*/
+/*    background-color: #5cb85c;*/
+/*    color: #fff;*/
+/*    padding: 10px 20px;*/
+/*    border: none;*/
+/*    border-radius: 4px;*/
+/*    cursor: pointer;*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*button:hover {*/
+/*    background-color: #4cae4c;*/
+/*}*/
+
+/*.progress-bar {*/
+/*    background-color: #ddd;*/
+/*    height: 20px;*/
+/*    border-radius: 10px;*/
+/*    margin-top: 20px;*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*.progress {*/
+/*    background-color: #5cb85c;*/
+/*    height: 100%;*/
+/*    border-radius: 10px;*/
+/*}*/
+
+/*.success-message {*/
+/*    color: #5cb85c;*/
+/*    margin-top: 20px;*/
+/*    font-weight: bold;*/
+/*}*/
+/*.file-uploader {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    background-image: url("../Assets/endcode.jpg");*/
+/*    background-position: center; !* מיקום התמונה בתוך האלמנט *!*/
+/*    background-size: cover; !* התאמת התמונה לרזולוציה של המסך *!*/
+/*    !*padding: 20px;*!*/
+
+/*    background-repeat: no-repeat;*/
+/*    justify-content: center;*/
+
+/*    !*background-size: contain; !* השתמש ב-contain כדי להציג את כל התמונה בגודל מקסימלי *!*!*/
+/*    height: 900px;*/
+/*    width: 1520px;*/
+/*}*/
+
+/*.file-input {*/
+/*    display: none; !* Hide the default file input element *!*/
+/*    width: 100px;*/
+/*}*/
+/*.text-input-placeholder {*/
+/*    direction: rtl; !* כיוון הטקסט מימין לשמאל *!*/
+/*    text-align: right; !* יישור הטקסט לשמאל *!*/
+/*}*/
+
+
+/*.custom-file-upload {*/
+/*    display: inline-block;*/
+/*    padding: 10px 20px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*    background-color: #f5f5f5;*/
+/*    color: #333;*/
+/*    transition: background-color 0.2s ease-in-out;*/
+/*    font-weight: bold;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*.custom-file-upload:hover {*/
+/*    background-color: #eee;*/
+/*}*/
+
+/*select {*/
+/*    width: 100px;*/
+/*    padding: 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 5px;*/
+/*    font-size: 16px;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*.progress-bar {*/
+/*    height: 5px;*/
+/*    background-color: #ddd;*/
+/*    border-radius: 5px;*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*.progress-fill {*/
+/*    width: 0%; !* Initially empty *!*/
+/*    height: 100%;*/
+/*    background-color: #4CAF50; transition: width 0.2s ease-in-out;*/
+/*}*/
+.title {
+    margin-left: 10px; /* הוספת מרווח משמאל */
+    color: orangered;
+    font-size: 48px;
+}
+.file-uploader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url("../Assets/endcode.jpg");
+    background-position: center; /* מיקום התמונה בתוך האלמנט */
+    background-size: cover; /* התאמת התמונה לרזולוציה של המסך */
+    height: 100vh; /* גובה האלמנט להיות בגובה של כל המסך */
+    max-width: 100%; /* האלמנט לא יעבור את רוחב המסך */
+    padding: 20px;
+    justify-content: center; /* ליישר את התוכן למרכז האלמנט */
+}
+
+.file-input {
+    display: none; /* להסתיר את האלמנט ברספונסיביות */
+}
+
+.custom-file-upload {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    color: #333;
+    transition: background-color 0.2s ease-in-out;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.custom-file-upload:hover {
+    background-color: #eee;
+}
+
+select {
+    direction: rtl;
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.textVal {
+    direction: rtl;
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.btnS{
+    padding: 30px 30px;
+    border: none;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: #5cb85c;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.progress-bar {
+    height: 5px;
+
+    background-color: #ddd;
+    border-radius: 5px;
+    direction: rtl;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%; /* Initially empty */
+    height: 100%;
+    background-color: #4CAF50; transition: width 0.2s ease-in-out;
+}
+
+/* Media Query for smaller screens */
+@media screen and (max-width: 600px) {
+    .file-uploader {
+        padding: 10px; /* שינוי פדים למסך קטן יותר */
+    }
+}
