@@ -3,24 +3,35 @@ import './LoginForm.css';
 import user_icon from '../Assets/person.png';
 import password_icon from '../Assets/password.png';
 import io from 'socket.io-client';
-import React, { useState, useEffect } from 'react'; // Import useEffect here
-import { useHistory } from 'react-router-dom'; // הוסף את useHistory מ־React Router DOM
+import React, {useState, useEffect, useContext} from 'react'; // Import useEffect here
+import { useNavigate } from 'react-router-dom';
+import UserViewObject from "../UserViewObject";
+import { useUserContext } from '../Context';
 
 function LoginSignUp() {
+    // השגת ה־context של המשתמשים
+
+    const { user, setUser } = useUserContext();
+
+    // הגדרת משתנים נדרשים
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [socket, setSocket] = useState(null);
+    const navigate = useNavigate();
+
+
 
     // Connect to the server
     useEffect(() => {
         const socketConnection = io('http://localhost:5000');
         setSocket(socketConnection);
+        console.log(user);
 
         return () => {
             socketConnection.disconnect();
         };
-    }, []);
+    }, [user]);
 
     const handleLogin = () => {
         if (username.trim() === '' || password.trim() === '') {
@@ -38,12 +49,29 @@ function LoginSignUp() {
 
         // Listen for response from server
         socket.on('login_response', (data) => {
-            setMessage(data.message);
-            if (data.success) {
-                // ('/create_code');
+            if (typeof data.message === 'string') {
+                setMessage(data.message);
+                if (data.message.includes('Login Successful')) {
+                    // איתחול שם המשתמש ב context של המשתמשים
+                    const userViewObject = new UserViewObject(
+                        data.user_view.username,
+                        parseInt(data.user_view.user_id), // המרת המחרוזת למספר
+                        data.user_view.access_key,
+                        data.user_view.company_number
+                    );
+                    console.log(userViewObject);
+                    setUser(userViewObject);
+                    console.log(user);
+                    const userID =userViewObject.getUserId() ;
+                    navigate('/Home/'+userID);
+
+                }
+            } else {
+                console.error('Invalid message format:', data.message);
             }
         });
     };
+
 
     return (
         <div className="allLs">
@@ -72,13 +100,15 @@ function LoginSignUp() {
                 <div className="forgot">New user? <button className="bt"
                                                           onClick={() => window.location.href = 'http://localhost:3000/signup'}>Click
                     here</button></div>
-                <div>
-            </div>
+
                 <div className="submit-containerLs">
                     <button className="submitLs" onClick={handleLogin}>Login</button>
                 </div>
-                <p>{message}</p>
-        </div>
+                <div>
+                    <p className="p">{message}</p>
+                </div>
+
+            </div>
         </div>
     );
 }

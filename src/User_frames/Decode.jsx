@@ -1,66 +1,41 @@
 import React, { useState } from 'react';
 import './Decode_f.css';
+import io from 'socket.io-client';
 
-function Decode_f() {
+const socket = io('http://localhost:5000'); // Connect to the WebSocket server
+
+function FileDecoder() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [isFileUploaded, setIsFileUploaded] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
-    const [textValue, setTextValue] = useState('');
+    const [message, setMessage] = useState('');
     const [selectValue, setSelectValue] = useState('');
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
-        setIsFileUploaded(false);
-        const file = event.target.files[0]; // קבלת הקובץ הנבחר
-        setSelectedFile(file); // עדכון הקובץ הנבחר במצב הקודם
-
-        // בדיקת סוג הקובץ
-        if (file) {
-            if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/webp' || file.type === 'audio/aiff' || file.type === 'audio/wav' || file.type === 'audio/mp3' || file.type === 'audio/flac') {
-                console.log('הקובץ הוא תמונה או קובץ שמע');
-            } else if (file.type === 'application/pdf') {
-                console.log('הקובץ הוא PDF');
-            } else {
-                console.log('סוג הקובץ אינו נתמך');
-            }
-        }
     };
 
-    const handleUpload = async () => {
+    const handleUpload = () => {
         if (!selectedFile) {
             alert('אנא בחר קובץ להעלאה');
             return;
         }
 
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-        formData.append('text', textValue);
-        formData.append('option', selectValue);
+        const data = {
+            file: selectedFile,
+            option: selectValue
+        };
 
-        try {
-            const response = await fetch('http://127.0.0.1:5000/upload', {
-                method: 'POST',
-                body: formData,
-                onUploadProgress: (progressEvent) => {
-                    const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-                    setUploadProgress(progress);
-                }
-            });
-
-            if (response.ok) {
-                console.log('File uploaded successfully');
-                setIsFileUploaded(true);
-            } else {
-                throw new Error('Upload failed');
-            }
-        } catch (error) {
-            console.error('Error uploading file:', error);
-        }
+        socket.emit('decode', data);
     };
+
+    socket.on('decode_response', (data) => {
+        setMessage(data.message);
+        setIsFileUploaded(true);
+    });
 
     return (
         <div className="file-uploader">
-
             <h1 className='title'>פענוח מסר</h1>
             <select value={selectValue} onChange={(event) => setSelectValue(event.target.value)}>
                 <option value="">בחר סוג קובץ</option>
@@ -73,8 +48,7 @@ function Decode_f() {
 
             <br/>
             <br/>
-            <input className='textVal' type="text" value={textValue} onChange={(event) => setTextValue(event.target.value)}
-                   placeholder="הזן טקסט"/>
+
             <br/>
             <button className='btnS' onClick={handleUpload}>שליחה</button>
             {uploadProgress > 0 && !isFileUploaded && (
@@ -83,9 +57,10 @@ function Decode_f() {
                 </div>
             )}
             {isFileUploaded && <div className="success-message">הקובץ הועלה בהצלחה!</div>}
+            <h1>המסר המוצפן הוא:</h1>
+            <h2>{message}</h2>
         </div>
     );
 }
 
-export default Decode_f;
-
+export default FileDecoder;

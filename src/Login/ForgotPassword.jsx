@@ -37,9 +37,10 @@ function ForgotPasswordForm() {
         if (!socket) return;
 
         socket.on('email_sent', (data) => {
+            setMessage(data.message);
             if (data.success) {
                 setCodeV(data.message);
-                setMessage('');
+
                 setStep(2);
             } else {
                 setMessage(data.message);
@@ -47,8 +48,9 @@ function ForgotPasswordForm() {
         });
 
         socket.on('code_verified', (data) => {
+            setMessage(data.message);
             if (data.success) {
-                setMessage('');
+
                 setStep(3);
             } else {
                 setMessage(data.message);
@@ -56,6 +58,7 @@ function ForgotPasswordForm() {
         });
 
         socket.on('password_changed', (data) => {
+            setMessage(data.message);
             if (data.success) {
                 setMessage('Password changed successfully!');
             } else {
@@ -86,7 +89,7 @@ function ForgotPasswordForm() {
                             <div className="submit-containerL">
                                 <button className="submitL" type="submit">Send Email</button>
                             </div>
-                            <p>{message}</p>
+                            <p className="pF">{message}</p>
                         </form>
                     </div>
                 </div>
@@ -105,7 +108,7 @@ function ForgotPasswordForm() {
                                 <input className="Vcode" type="text" placeholder="Verification Code:" value={code}
                                        onChange={(e) => setCode(e.target.value)}/>
                             </div>
-                            <p>{message}</p>
+                            <p className="pF">{message}</p>
                             <div className="submit-containerL">
                                 <button className="submitL" type="submit">Verify Code</button>
                             </div>
@@ -130,7 +133,7 @@ function ForgotPasswordForm() {
                                        value={newPassword}
                                        onChange={(e) => setNewPassword(e.target.value)}/>
                             </div>
-                            <p>{message}</p>
+                            <p className="pF">{message}</p>
                             <div className="submit-containerL">
                                 <button className="submitL" type="submit">Change Password</button>
                             </div>

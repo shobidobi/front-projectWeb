@@ -1,0 +1,38 @@
+.home-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: orange;
+}
+
+.home-screen h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.home-screen p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.buttons-container button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.buttons-container button:hover {
+    background-color: #0056b3;
+}

@@ -1,30 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Logo from './Assets/logo.jpg';
 import { useUserContext } from './Context';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
     // משתנה state לשמירת שם המשתמש המחובר
     const [username, setUsername] = useState('');
-    const { getCurrentUser, setUsername: setUsernames } = useUserContext();
-
-
-
-    // פונקציה לבדיקת האם המשתמש מחובר
-    const checkLoggedIn = () => {
-        // קריאה לפונקציה getCurrentUser כדי לבדוק האם המשתמש מחובר
-        const user =getCurrentUser()
-
-        // אם המשתמש מחובר, נקבע את שם המשתמש בהתאם
-        if (user&&user!==''&&user!=='null') {
-            setUsername(user);
-
-        }
-    };
-
-    // בקריאה הראשונית לרכיב, בודקים האם המשתמש מחובר
-    useEffect(() => {
-        checkLoggedIn();
-    }, []);
+    const { user, setUser } = useUserContext();
+    const navigate = useNavigate();
 
     // פונקציה להתנתקות המשתמש
     const handleLogout = () => {
@@ -33,6 +16,7 @@ function Header() {
         // אחרי התנתקות, יתבצע רענון העמוד כך שהמשתמש יועבר למצב התחברות
         window.location.reload();
     };
+    const userID =user.getUserId() ;
 
     return (
         <nav className="navbar">
@@ -42,17 +26,21 @@ function Header() {
             <div className="company-name">Swift Stenography</div>
             <div className="buttons">
                 {/* בדיקה האם המשתמש מחובר - אם כן, הצגת שם המשתמש */}
-                {username && <div className="logged">ברוך הבא, {username}</div>}
+                {user && <div className="logged">ברוך הבא, {user.getUsername()}</div>}
                 {/* כפתור התנתקות - מוצג רק אם המשתמש מחובר */}
-                {username && <button onClick={handleLogout}>התנתק</button>}
+                {user && <button onClick={handleLogout}>התנתק</button>}
+                {user && <button onClick={()=>navigate('/Home/'+userID)}>דף הבית</button>}
                 {/* כפתורי התחברות והרשמה - מוצגים רק אם המשתמש אינו מחובר */}
-                {!username && <button onClick={() => window.location.href = 'http://localhost:3000/login'} >התחבר</button>}
-                {!username && <button onClick={() => window.location.href = 'http://localhost:3000/signup'}>הרשם</button>}
-                <button>עלינו</button>
+                {!user && <button onClick={() => window.location.href = 'http://localhost:3000/login'} >התחבר</button>}
+                {!user && <button onClick={() => window.location.href = 'http://localhost:3000/signup'}>הרשם</button>}
+
             </div>
         </nav>
     );
 }
 
 export default Header;
+
+
+
 
