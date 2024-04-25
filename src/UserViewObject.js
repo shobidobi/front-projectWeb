@@ -1,7 +1,8 @@
 class UserViewObject {
-    constructor(username, userId, accessKey, companyNumber) {
+    constructor(username, userId, accessKey, companyNumber,is_change_company_code) {
         this.username = username;
         this.userId = userId;
+        this.is_change_company_code= is_change_company_code;
         this.accessKey = accessKey;
         this.companyNumber = companyNumber;
     }
@@ -36,6 +37,12 @@ class UserViewObject {
 
     setCompanyNumber(companyNumber) {
         this.companyNumber = companyNumber;
+    }
+    setIsChangeCompanyCode(is_change_company_code){
+        this.is_change_company_code=is_change_company_code;
+    }
+    getIsChangeCompanyCode(){
+        return this.is_change_company_code;
     }
 }
 export default UserViewObject;

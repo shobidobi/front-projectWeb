@@ -6,17 +6,27 @@ import { useNavigate } from 'react-router-dom';
 function Header() {
     // משתנה state לשמירת שם המשתמש המחובר
     const [username, setUsername] = useState('');
-    const { user, setUser } = useUserContext();
+    const { state } = useUserContext();
+    const user = state.user;
     const navigate = useNavigate();
 
     // פונקציה להתנתקות המשתמש
     const handleLogout = () => {
-        // כאן נכתוב את הפעולות להתנתקות המשתמש, לדוגמה:
+        // Remove user token from localStorage
+        localStorage.removeItem('user');
+
+        // Perform logout action, for example:
         // logoutUser();
-        // אחרי התנתקות, יתבצע רענון העמוד כך שהמשתמש יועבר למצב התחברות
-        window.location.reload();
+
+        // After logout, redirect the user to the login page
+        window.location.href = 'http://localhost:3000/login';
     };
-    const userID =user.getUserId() ;
+
+    const userID = 0;
+    if (user){
+        const userID =user.getUserId() ;
+    }
+
 
     return (
         <nav className="navbar">

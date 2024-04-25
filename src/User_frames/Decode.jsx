@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Decode_f.css';
 import io from 'socket.io-client';
+import {useUserContext} from "../Context";
 
 const socket = io('http://localhost:5000'); // Connect to the WebSocket server
 
@@ -10,7 +11,8 @@ function FileDecoder() {
     const [uploadProgress, setUploadProgress] = useState(0);
     const [message, setMessage] = useState('');
     const [selectValue, setSelectValue] = useState('');
-
+    const { state } = useUserContext();
+    const user = state.user;
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
     };
@@ -23,13 +25,16 @@ function FileDecoder() {
 
         const data = {
             file: selectedFile,
-            option: selectValue
+            option: selectValue,
+            user_id:user.getUserId()
         };
 
         socket.emit('decode', data);
+        console.log(data);
     };
 
     socket.on('decode_response', (data) => {
+        console.log(data);
         setMessage(data.message);
         setIsFileUploaded(true);
     });
@@ -57,8 +62,8 @@ function FileDecoder() {
                 </div>
             )}
             {isFileUploaded && <div className="success-message">הקובץ הועלה בהצלחה!</div>}
-            <h1>המסר המוצפן הוא:</h1>
-            <h2>{message}</h2>
+            <h1 className="mes_d">:המסר המוצפן הוא</h1>
+            <h2 className="mes_d">{message}</h2>
         </div>
     );
 }

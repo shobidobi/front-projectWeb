@@ -14,6 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "assert": "^2.1.0",
     "axios": "^1.6.7",
+    "browserify-fs": "^1.0.0",
     "browserify-zlib": "^0.2.0",
     "convertapi-js": "^1.0.8",
     "https-browserify": "^1.0.0",

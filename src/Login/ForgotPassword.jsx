@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './ForgotPassword.css';
 import io from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
+
 
 function ForgotPasswordForm() {
     const [email, setEmail] = useState('');
@@ -11,7 +13,7 @@ function ForgotPasswordForm() {
     const [codeV, setCodeV] = useState('');
     const [username, setUsername] = useState('');
     const [socket, setSocket] = useState(null);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const socketConnection = io('http://localhost:5000');
         setSocket(socketConnection);
@@ -61,6 +63,7 @@ function ForgotPasswordForm() {
             setMessage(data.message);
             if (data.success) {
                 setMessage('Password changed successfully!');
+                navigate('/login')
             } else {
                 setMessage(data.message);
             }
@@ -108,7 +111,7 @@ function ForgotPasswordForm() {
                                 <input className="Vcode" type="text" placeholder="Verification Code:" value={code}
                                        onChange={(e) => setCode(e.target.value)}/>
                             </div>
-                            <p className="pF">{message}</p>
+
                             <div className="submit-containerL">
                                 <button className="submitL" type="submit">Verify Code</button>
                             </div>
@@ -133,7 +136,7 @@ function ForgotPasswordForm() {
                                        value={newPassword}
                                        onChange={(e) => setNewPassword(e.target.value)}/>
                             </div>
-                            <p className="pF">{message}</p>
+
                             <div className="submit-containerL">
                                 <button className="submitL" type="submit">Change Password</button>
                             </div>

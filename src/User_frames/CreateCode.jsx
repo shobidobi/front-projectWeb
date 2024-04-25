@@ -1,40 +1,62 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './CreateCode.css';
+import io from 'socket.io-client';
+import { encryptJsonRsa } from '../RSA';
+import {useUserContext} from "../Context";
+import UserViewObject from "../UserViewObject";
+import { useNavigate } from 'react-router-dom';
+
+const socket = io('http://localhost:5000');
 
 function CreateCode() {
+    const { state } = useUserContext();
+    const navigate = useNavigate();
+
+    const user = state.user;
     const [companyNumber, setCompanyNumber] = useState('');
     const [algorithmType, setAlgorithmType] = useState('');
     const [pixelRangeStart, setPixelRangeStart] = useState('');
     const [pixelRangeEnd, setPixelRangeEnd] = useState('');
     const [fileType, setFileType] = useState('');
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         // בדיקה אם יש ערכים ריקים
         if (!companyNumber || !algorithmType || !pixelRangeStart || !pixelRangeEnd || !fileType) {
             console.error('Please fill all fields');
             return;
         }
 
-        // המשך עם הפעולה
-        const data = {
-            companyNumber: parseInt(companyNumber),
-            algorithmType,
-            pixelRange: [parseInt(pixelRangeStart), parseInt(pixelRangeEnd)],
-            fileType
-        };
+        // קבלת מפתח מהשרת
+        socket.emit('get_key_company', { company: parseInt(companyNumber) ,fileType: fileType});
 
-        try {
-            const handle = await window.showSaveFilePicker();
-            await handle.createWritable().then(async writable => {
-                await writable.write(JSON.stringify(data));
-                await writable.close();
+        // הקשבה חד פעמית לאירוע 'response' מהשרת
+        socket.once('response', (data) => {
+            console.log('Received response from server:', data);
+            const key = data.key;
+
+            // הצפנת הנתונים עם המפתח
+            const encryptedData = encryptJsonRsa({
+                companyNumber,
+                algorithmType,
+                pixelRangeStart,
+                pixelRangeEnd,
+                fileType
+            }, key);
+
+            // שליחת הנתונים המוצפנים לשרת
+            socket.emit('create_code', {encryptedData, company: parseInt(companyNumber),file_type:fileType});
+            socket.on('response_code', (data) => {
+                // if (typeof data.message === 'string') {
+                //     if (data.message.includes('Data has been received and processed successfully')) {
+                //         const userID = user.getUserId();
+                //         // Dispatch action to set the user in the context
+                //         navigate('/Home/' + userID);
+                //     }
+                // }
             });
-            console.log('Data has been saved successfully');
-        } catch (err) {
-            console.error('Error saving data:', err);
-        }
-    };
 
+        });
+    };
 
     return (
         <div className="allC">
@@ -72,8 +94,8 @@ function CreateCode() {
                 <button onClick={handleSubmit}>Submit</button>
             </div>
         </div>
-
     );
 }
+
 
 export default CreateCode;

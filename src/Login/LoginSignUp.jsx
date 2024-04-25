@@ -1,37 +1,40 @@
-
 import './LoginForm.css';
 import user_icon from '../Assets/person.png';
 import password_icon from '../Assets/password.png';
 import io from 'socket.io-client';
-import React, {useState, useEffect, useContext} from 'react'; // Import useEffect here
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserViewObject from "../UserViewObject";
-import { useUserContext } from '../Context';
+import { useUserContext } from "../Context";
+
+function calculateHash(text) {
+    let hash = '';
+    for (let i = 0; i < text.length; i++) {
+        const asciiCode = text.charCodeAt(i) * 5;
+        hash += asciiCode.toString();
+    }
+    return hash;
+}
 
 function LoginSignUp() {
-    // השגת ה־context של המשתמשים
-
-    const { user, setUser } = useUserContext();
-
-    // הגדרת משתנים נדרשים
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [socket, setSocket] = useState(null);
-    const navigate = useNavigate();
+    const [connectionStatus, setConnectionStatus] = useState('');
+    const { dispatch } = useUserContext(); // Use dispatch instead of setUser
 
-
-
-    // Connect to the server
     useEffect(() => {
         const socketConnection = io('http://localhost:5000');
         setSocket(socketConnection);
-        console.log(user);
-
+        socketConnection.on('connection_status', (data) => {
+            setConnectionStatus(data.status);
+        });
         return () => {
             socketConnection.disconnect();
         };
-    }, [user]);
+    }, []);
 
     const handleLogin = () => {
         if (username.trim() === '' || password.trim() === '') {
@@ -44,34 +47,31 @@ function LoginSignUp() {
             return;
         }
 
-        // Emit login event to server with username and password
-        socket.emit('login', { username, password });
+        console.log('Sending login request:', { username: username, password: calculateHash(password) });
 
-        // Listen for response from server
+        socket.emit('login', { username: username, password: calculateHash(password) });
+
         socket.on('login_response', (data) => {
             if (typeof data.message === 'string') {
                 setMessage(data.message);
                 if (data.message.includes('Login Successful')) {
-                    // איתחול שם המשתמש ב context של המשתמשים
+                    // Initialize the user context with the user data
                     const userViewObject = new UserViewObject(
                         data.user_view.username,
-                        parseInt(data.user_view.user_id), // המרת המחרוזת למספר
+                        parseInt(data.user_view.user_id),
                         data.user_view.access_key,
-                        data.user_view.company_number
+                        data.user_view.company_number,
+                        data.user_view.is_change_code
                     );
                     console.log(userViewObject);
-                    setUser(userViewObject);
-                    console.log(user);
-                    const userID =userViewObject.getUserId() ;
-                    navigate('/Home/'+userID);
-
+                    // Dispatch action to set the user in the context
+                    dispatch({ type: 'SET_USER', payload: userViewObject });
+                    const userID = userViewObject.getUserId();
+                    navigate('/Home/' + userID);
                 }
-            } else {
-                console.error('Invalid message format:', data.message);
             }
         });
     };
-
 
     return (
         <div className="allLs">
@@ -82,32 +82,31 @@ function LoginSignUp() {
                 </div>
                 <div className="inputsLs">
                     <div className="inputLs">
-                        <img src={user_icon} alt=""/>
+                        <img src={user_icon} alt="" />
                         <input type="text" placeholder="Username" value={username}
-                               onChange={(e) => setUsername(e.target.value)}/>
+                               onChange={(e) => setUsername(e.target.value)} />
                     </div>
                     <div className="inputLs">
-                        <img src={password_icon} alt=""/>
+                        <img src={password_icon} alt="" />
                         <input type="password" placeholder="Password" value={password}
-                               onChange={(e) => setPassword(e.target.value)}/>
+                               onChange={(e) => setPassword(e.target.value)} />
                     </div>
-
-
                 </div>
                 <div className="forgot">Forgot Password? <button className="bt"
-                                                                 onClick={() => window.location.href = 'http://localhost:3000/forgotpassword'}>Click
+                                                                 onClick={() => navigate('/forgotpassword')}>Click
                     here</button></div>
                 <div className="forgot">New user? <button className="bt"
-                                                          onClick={() => window.location.href = 'http://localhost:3000/signup'}>Click
+                                                          onClick={() => navigate('/signup')}>Click
                     here</button></div>
-
                 <div className="submit-containerLs">
                     <button className="submitLs" onClick={handleLogin}>Login</button>
                 </div>
                 <div>
                     <p className="p">{message}</p>
                 </div>
-
+                <div>
+                    <p className="p">Connection Status: {connectionStatus}</p>
+                </div>
             </div>
         </div>
     );

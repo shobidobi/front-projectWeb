@@ -1,32 +1,54 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
+import UserViewObject from "./UserViewObject";
+
+// Define the function to parse user data from localStorage to UserViewObject
+const parseUser = (userData) => {
+    if (userData) {
+        return new UserViewObject(
+            userData.username,
+            userData.userId,
+            userData.accessKey,
+            userData.companyNumber,
+            userData.is_change_company_code
+        );
+    } else {
+        return null;
+    }
+};
+
+// Define the initial state
+const initialState = {
+    user: parseUser(JSON.parse(localStorage.getItem('user'))) || null
+};
 
 // Create context
 const UserContext = createContext();
 
+// Define the reducer function
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'SET_USER':
+            localStorage.setItem('user', JSON.stringify(action.payload));
+            return {
+                ...state,
+                user: action.payload
+            };
+        default:
+            return state;
+    }
+};
+
 // Create provider component
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     // Function to check if user is logged in
     const isLoggedIn = () => {
-        return user !== null;
+        return state.user !== null;
     };
 
-    useEffect(() => {
-        // Check if user is stored in localStorage during page refresh
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []); // Run only on component mount
-
-    useEffect(() => {
-        // Store user in localStorage when it changes
-        localStorage.setItem('user', JSON.stringify(user));
-    }, [user]); // Run whenever user state changes
-
     return (
-        <UserContext.Provider value={{ user, setUser, isLoggedIn }}>
+        <UserContext.Provider value={{ state, dispatch, isLoggedIn }}>
             {children}
         </UserContext.Provider>
     );
@@ -36,3 +58,4 @@ export const UserProvider = ({ children }) => {
 export const useUserContext = () => {
     return useContext(UserContext);
 };
+export default UserContext;
