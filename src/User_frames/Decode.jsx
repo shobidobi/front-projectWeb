@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Decode_f.css';
 import io from 'socket.io-client';
 import {useUserContext} from "../Context";
+import {encryptText} from "../RSA";
 
 const socket = io('http://localhost:5000'); // Connect to the WebSocket server
 
@@ -22,15 +23,22 @@ function FileDecoder() {
             alert('אנא בחר קובץ להעלאה');
             return;
         }
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const arrayBuffer = event.target.result; // Get the data in ArrayBuffer format
+            const binaryData = new Uint8Array(arrayBuffer); // Convert the data to Uint8Array format
 
-        const data = {
-            file: selectedFile,
-            option: selectValue,
-            user_id:user.getUserId()
+            const data = {
+                file: selectedFile,
+                option: selectValue,
+                user_id:user.getUserId()
+            };
+
+            socket.emit('decode', data);
+            console.log(data);
         };
 
-        socket.emit('decode', data);
-        console.log(data);
+        reader.readAsArrayBuffer(selectedFile);
     };
 
     socket.on('decode_response', (data) => {

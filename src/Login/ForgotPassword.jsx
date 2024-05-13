@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './ForgotPassword.css';
 import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-
+import he from 'he';// ייבוא הספריה למניעת XSS
 
 function ForgotPasswordForm() {
     const [email, setEmail] = useState('');
@@ -24,48 +24,60 @@ function ForgotPasswordForm() {
     }, []);
 
     const sendEmail = (email) => {
-        socket.emit('send_email', { email });
+        if (!email) {
+            alert('Please enter your email');
+            return;
+        }
+        socket.emit('send_email', { email: he.encode(email) }); // Encode email to prevent XSS
     };
 
     const submitCode = (code) => {
-        socket.emit('submit_code', { code });
+        if (!code) {
+            alert('Please enter the verification code');
+            return;
+        }
+        socket.emit('submit_code', { code: he.encode(code) }); // Encode code to prevent XSS
     };
 
     const changePassword = (username, newPassword) => {
-        socket.emit('change_password', { username, newPassword });
+        if (!username || !newPassword) {
+            alert('Please enter both username and new password');
+            return;
+        }
+        socket.emit('change_password', { username: he.encode(username), newPassword: he.encode(newPassword) }); // Encode username and newPassword to prevent XSS
     };
 
     useEffect(() => {
         if (!socket) return;
 
         socket.on('email_sent', (data) => {
-            setMessage(data.message);
+            setMessage(he.decode(data.message)); // Decode message to display properly
             if (data.success) {
                 setCodeV(data.message);
 
                 setStep(2);
             } else {
-                setMessage(data.message);
+                setMessage(he.decode(data.message)); // Decode message to display properly
             }
         });
 
         socket.on('code_verified', (data) => {
-            setMessage(data.message);
+            setMessage(he.decode(data.message)); // Decode message to display properly
             if (data.success) {
 
                 setStep(3);
             } else {
-                setMessage(data.message);
+                setMessage(he.decode(data.message)); // Decode message to display properly
             }
         });
 
         socket.on('password_changed', (data) => {
-            setMessage(data.message);
+            setMessage(he.decode(data.message)); // Decode message to display properly
             if (data.success) {
                 setMessage('Password changed successfully!');
                 navigate('/login')
             } else {
-                setMessage(data.message);
+                setMessage(he.decode(data.message)); // Decode message to display properly
             }
         });
 

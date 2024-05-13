@@ -2,6 +2,8 @@ import './LoginForm.css';
 import user_icon from '../Assets/person.png';
 import password_icon from '../Assets/password.png';
 import io from 'socket.io-client';
+import he from 'he'; // ייבוא הספריה למניעת XSS
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserViewObject from "../UserViewObject";
@@ -28,9 +30,7 @@ function LoginSignUp() {
     useEffect(() => {
         const socketConnection = io('http://localhost:5000');
         setSocket(socketConnection);
-        socketConnection.on('connection_status', (data) => {
-            setConnectionStatus(data.status);
-        });
+
         return () => {
             socketConnection.disconnect();
         };
@@ -53,7 +53,7 @@ function LoginSignUp() {
 
         socket.on('login_response', (data) => {
             if (typeof data.message === 'string') {
-                setMessage(data.message);
+                setMessage(he.decode(data.message)); // Decode HTML entities
                 if (data.message.includes('Login Successful')) {
                     // Initialize the user context with the user data
                     const userViewObject = new UserViewObject(
@@ -105,7 +105,7 @@ function LoginSignUp() {
                     <p className="p">{message}</p>
                 </div>
                 <div>
-                    <p className="p">Connection Status: {connectionStatus}</p>
+
                 </div>
             </div>
         </div>

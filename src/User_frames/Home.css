@@ -4,17 +4,25 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: orange;
+    /*background-color: chocolate;*/
+    background-image: url("../Assets/HO.jpeg");
+
 }
 
 .home-screen h1 {
-    font-size: 2rem;
+    font-size: 4rem;
     margin-bottom: 20px;
+    color: mediumvioletred;
+    background: #eaeaea;
+    border-radius: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .home-screen p {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     margin-bottom: 20px;
+    color: yellow;
 }
 
 .buttons-container {
@@ -26,7 +34,7 @@
 .buttons-container button {
     padding: 10px 20px;
     font-size: 1rem;
-    background-color: #007bff;
+    background-color: orange;
     color: #ffffff;
     border: none;
     border-radius: 5px;

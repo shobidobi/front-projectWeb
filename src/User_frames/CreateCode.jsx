@@ -5,6 +5,7 @@ import { encryptJsonRsa } from '../RSA';
 import {useUserContext} from "../Context";
 import UserViewObject from "../UserViewObject";
 import { useNavigate } from 'react-router-dom';
+import he from 'he'; // ייבוא הספריה למניעת XSS
 
 const socket = io('http://localhost:5000');
 
@@ -33,7 +34,10 @@ function CreateCode() {
         socket.once('response', (data) => {
             console.log('Received response from server:', data);
             const key = data.key;
-
+            if (!pixelRangeStart || !pixelRangeEnd) {
+                setPixelRangeStart(0);
+                setPixelRangeEnd(0);
+            }
             // הצפנת הנתונים עם המפתח
             const encryptedData = encryptJsonRsa({
                 companyNumber,

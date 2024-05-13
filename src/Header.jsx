@@ -39,7 +39,7 @@ function Header() {
                 {user && <div className="logged">ברוך הבא, {user.getUsername()}</div>}
                 {/* כפתור התנתקות - מוצג רק אם המשתמש מחובר */}
                 {user && <button onClick={handleLogout}>התנתק</button>}
-                {user && <button onClick={()=>navigate('/Home/'+userID)}>דף הבית</button>}
+                {user && <button onClick={()=>navigate('/Home/'+user.getUserId())}>דף הבית</button>}
                 {/* כפתורי התחברות והרשמה - מוצגים רק אם המשתמש אינו מחובר */}
                 {!user && <button onClick={() => window.location.href = 'http://localhost:3000/login'} >התחבר</button>}
                 {!user && <button onClick={() => window.location.href = 'http://localhost:3000/signup'}>הרשם</button>}

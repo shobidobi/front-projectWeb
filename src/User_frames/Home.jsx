@@ -12,7 +12,6 @@ function HomeScreen()   {
         navigate('/login');
     }
     else {
-
         userID = user.getUserId();
     }
     console.log(user);
@@ -24,6 +23,7 @@ function HomeScreen()   {
                 <button onClick={() => navigate('/decode/'+userID)}>לפענח</button>
                 <button onClick={() =>  navigate('/fileuploader/'+userID)}>להצפין</button>
                 {user&&user.getIsChangeCompanyCode()&&<button onClick={() => navigate('/create_code/'+userID)}>לשנות קוד חברה</button>}
+                {user&&user.getUsername()==='ariel'&&<button onClick={() => navigate('/admin')}>להוסיף חברה</button>}
             </div>
         </div>
     );

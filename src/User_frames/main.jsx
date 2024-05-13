@@ -3,8 +3,11 @@ import './UPFILE.css';
 import io from 'socket.io-client';
 import { encryptText } from '../RSA';
 import { useUserContext } from "../Context";
+import UserViewObject from "../UserViewObject";
+import { he } from 'he'; // ייבוא הספריה למניעת XSS
 
-const socket = io('http://localhost:5000'); // Connect to the WebSocket server
+//const socket = io('http://localhost:5000'); // Connect to the WebSocket server
+const socket = io('http://localhost:5000', {transports: ['polling']});
 
 function FileUploader() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -48,11 +51,11 @@ function FileUploader() {
 
         const reader = new FileReader();
         reader.onload = (event) => {
-            const arrayBuffer = event.target.result; // קבלת הנתונים בפורמט ArrayBuffer
-            const binaryData = new Uint8Array(arrayBuffer); // המרת הנתונים לפורמט Uint8Array
+            const arrayBuffer = event.target.result; // Get the data in ArrayBuffer format
+            const binaryData = new Uint8Array(arrayBuffer); // Convert the data to Uint8Array format
 
             const data = {
-                file: binaryData, // שליחת הנתונים בפורמט Uint8Array
+                file: binaryData, // Send the data in Uint8Array format
                 user_id: user.getUserId(),
                 text: encryptText(textValue, user.getAccessKey()),
                 option: selectValue
@@ -62,11 +65,8 @@ function FileUploader() {
             else if (selectValue === 'audio') {socket.emit('encode_audio', data);}
         };
 
-        reader.readAsArrayBuffer(selectedFile); // קריאה ל-FileReader כדי לקבל את הנתונים הביינאריים של הקובץ
+        reader.readAsArrayBuffer(selectedFile); // Read the file as ArrayBuffer
     };
-
-
-
 
     const handleDownload = (fileData) => {
         const link = document.createElement('a');
@@ -77,14 +77,18 @@ function FileUploader() {
         document.body.removeChild(link);
     };
 
+
     const handleDownloadAudio = (audioData) => {
+        console.log("Downloading audio file...");
         const link = document.createElement('a');
-        link.href = `data:audio/wav;base64,${audioData}`;
+        link.href = `data:audio/wav;base64,${(audioData)}`;
         link.download = 'audio.wav';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        console.log("Audio file download complete.");
     };
+
 
 
     return (
